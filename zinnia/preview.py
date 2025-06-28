@@ -3,8 +3,7 @@ from __future__ import division
 
 from bs4 import BeautifulSoup
 
-from django.utils import six
-from django.utils.encoding import python_2_unicode_compatible
+import six
 from django.utils.functional import cached_property
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
@@ -14,7 +13,7 @@ from zinnia.settings import PREVIEW_MORE_STRING
 from zinnia.settings import PREVIEW_SPLITTERS
 
 
-@python_2_unicode_compatible
+@six.python_2_unicode_compatible
 class HTMLPreview(object):
     """
     Build an HTML preview of an HTML content.

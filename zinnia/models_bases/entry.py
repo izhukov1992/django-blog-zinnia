@@ -7,10 +7,10 @@ from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
+import six
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 import django_comments as comments
 from django_comments.models import CommentFlag
@@ -34,7 +34,7 @@ from zinnia.settings import UPLOAD_TO
 from zinnia.url_shortener import get_url_shortener
 
 
-@python_2_unicode_compatible
+@six.python_2_unicode_compatible
 class CoreEntry(models.Model):
     """
     Abstract core entry model class providing
@@ -193,12 +193,14 @@ class CoreEntry(models.Model):
         get_latest_by = 'publication_date'
         verbose_name = _('entry')
         verbose_name_plural = _('entries')
-        index_together = [['slug', 'publication_date'],
-                          ['status', 'publication_date',
-                           'start_publication', 'end_publication']]
         permissions = (('can_view_all', 'Can view all entries'),
                        ('can_change_status', 'Can change status'),
                        ('can_change_author', 'Can change author(s)'), )
+        indexes = (
+            models.Index(fields=('slug', 'publication_date')),
+            models.Index(fields=('status', 'publication_date')),
+            models.Index(fields=('start_publication', 'end_publication')),
+        )
 
 
 class ContentEntry(models.Model):

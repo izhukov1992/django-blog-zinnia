@@ -1,6 +1,6 @@
 """Search module with complex query parsing for Zinnia"""
 from django.db.models import Q
-from django.utils import six
+import six
 
 from pyparsing import CaselessLiteral
 from pyparsing import Combine
